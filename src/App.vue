@@ -1,32 +1,32 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+    <MyInputText @getUser="processUser"></MyInputText>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+import MyInputText from "./components/inputText.vue";
+export default {
+  components: {
+    MyInputText,
+  },
+  methods: {
+    processUser(value) {
+      // const url = "http://localhost:8080/login";
+      const url = "http://www.tekito-app.com/login";
+      console.log(value.emailaddress);
+      console.log(value.password);
+      const params = new URLSearchParams();
+      params.append("emailaddress", value.emailaddress); // 渡したいデータ分だけappendする
+      params.append("password", value.password);
+      this.axios
+        .post(url, params, this.serverPass + "login")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
+</script>
